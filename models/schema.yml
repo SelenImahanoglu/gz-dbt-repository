@@ -129,12 +129,12 @@ models:
     description: "Finance_days ve int_campaigns_day modellerinin birleşimi. Finans ekibinin günlük kampanya kârlılığını izleyebilmesi için gelir, maliyet ve reklam metriklerini tek tabloda birleştirir."
     columns:
       - name: date
-        description: "Kayıt tarihi (günlük bazda)."
+        description: "Günlük tarih bilgisi."
         tests:
           - not_null
 
       - name: ads_margin
-        description: "Operasyonel marjdan reklam maliyeti çıkarılarak hesaplanan kârlılık."
+        description: "Operasyonel marjdan reklam maliyeti çıkarılarak hesaplanan gerçek kârlılık (NULL değerler 0 olarak işlenmiştir)."
         tests:
           - not_null
 
@@ -149,13 +149,13 @@ models:
           - not_null
 
       - name: ads_cost
-        description: "Kampanyalara yapılan toplam günlük harcama."
+        description: "Toplam reklam harcaması (kampanyasız günlerde 0)."
 
       - name: ads_impression
-        description: "Toplam günlük gösterim sayısı."
+        description: "Toplam günlük gösterim (kampanyasız günlerde 0)."
 
       - name: ads_clicks
-        description: "Toplam günlük tıklama sayısı."
+        description: "Toplam günlük tıklama (kampanyasız günlerde 0)."
 
       - name: quantity
         description: "Toplam satılan ürün adedi."
@@ -173,12 +173,37 @@ models:
           - not_null
 
       - name: margin
-        description: "Toplam marj."
+        description: "Toplam marj (total_operational_margin ile eşit)."
         tests:
           - not_null
 
       - name: shipping_fee
         description: "Toplam kargo ücretleri."
+        tests:
+          - not_null
 
       - name: log_cost
         description: "Toplam lojistik maliyetleri."
+        tests:
+          - not_null
+
+  - name: int_campaigns
+    description: "Farklı kampanya kaynaklarını birleştiren ara model."
+    columns:
+      - name: campaign_key
+        description: "Kampanya anahtarı (farklı kaynaklarda tekrar edebilir)."
+        tests:
+          - not_null   # unique testi kaldırıldı çünkü tekrarlar normal
+      - name: paid_source
+        description: "Veri kaynağı (Adwords, Bing, Criteo, Facebook)."
+        tests:
+          - accepted_values:
+              values: ['Adwords', 'Bing', 'Criteo', 'Facebook']
+      - name: ads_cost
+        description: "Kampanyanın harcaması (float64)."
+        tests:
+          - not_null
+      - name: impression
+        description: "Kampanyanın gösterim sayısı."
+      - name: click
+        description: "Kampanyadan gelen tıklama sayısı."
