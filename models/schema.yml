@@ -18,6 +18,7 @@ sources:
 
 models:
   - name: stg_gz_raw_data__raw_gz_product
+    description: "Ürün ham verisini düzenleyen model."
     columns:
       - name: products_id
         tests:
@@ -28,8 +29,10 @@ models:
           - not_null
 
   - name: stg_gz_raw_data__raw_gz_sales
+    description: "Satış ham verisini düzenleyen model."
     columns:
       - name: date_date
+        description: "Satış tarihi."
       - name: orders_id
         tests:
           - not_null
@@ -37,66 +40,29 @@ models:
         tests:
           - not_null
       - name: revenue
+        description: "Satıştan elde edilen gelir."
       - name: quantity
+        description: "Satılan ürün adedi."
 
   - name: stg_gz_raw_data__raw_gz_ship
+    description: "Kargo ve lojistik ham verisini düzenleyen model."
     columns:
       - name: orders_id
         tests:
           - unique
           - not_null
       - name: shipping_fee
+        description: "Kargo ücreti."
       - name: logistic_cost
+        description: "Lojistik maliyeti."
       - name: ship_cost
+        description: "Gönderim maliyeti."
 
   - name: int_campaigns
-    description: "Farklı kampanya kaynaklarını birleştiren ara model"
+    description: "Farklı kampanya kaynaklarını birleştiren ara model."
     columns:
-      - name: campaign_id
-        description: "Her kampanyayı benzersiz olarak tanımlayan ID"
-        tests:
-          - unique
-          - not_null
-
-      - name: campaign_name
-        description: "Kampanyanın adı"
-        tests:
-          - not_null
-
-      - name: channel
-        description: "Kampanyanın yürütüldüğü kanal (ör. Email, Social, Paid Search)"
-        tests:
-          - accepted_values:
-              values: ['Email', 'Social', 'Paid Search', 'Organic']
-
-      - name: start_date
-        description: "Kampanyanın başlangıç tarihi"
-        tests:
-          - not_null
-
-      - name: end_date
-        description: "Kampanyanın bitiş tarihi"
-
-      - name: total_spend
-        description: "Kampanyaya harcanan toplam bütçe"
-        tests:
-          - not_null
-
-      - name: clicks
-        description: "Kampanyadan gelen toplam tıklama sayısı"
-
-      - name: impressions
-        description: "Kampanyanın gösterim sayısı"
-  - name: int_campaigns_day
-    description: "Her gün için kampanya performansının özetini içeren model."
-    columns:
-      - name: date_date
-        description: "Kampanya verisinin ait olduğu tarih."
-        tests:
-          - not_null
-
-      - name: campaign_id
-        description: "Kampanyayı benzersiz şekilde tanımlayan ID."
+      - name: campaign_key
+        description: "Her kampanyayı benzersiz olarak tanımlayan anahtar."
         tests:
           - unique
           - not_null
@@ -106,32 +72,113 @@ models:
         tests:
           - not_null
 
-      - name: channel
-        description: "Kampanyanın yürütüldüğü kanal (örneğin Email, Social, Paid Search)."
+      - name: paid_source
+        description: "Kampanyanın geldiği kaynak (örneğin Adwords, Bing, Criteo, Facebook)."
         tests:
           - accepted_values:
-              values: ['Email', 'Social', 'Paid Search', 'Organic']
+              values: ['Adwords', 'Bing', 'Criteo', 'Facebook']
+
+      - name: ads_cost
+        description: "Kampanya harcaması (float64 formatında)."
+        tests:
+          - not_null
+
+      - name: impression
+        description: "Kampanyanın gösterim sayısı."
+      - name: click
+        description: "Kampanyadan gelen tıklama sayısı."
+
+  - name: int_campaigns_day
+    description: "Her gün için kampanya performansının özetini içeren model."
+    columns:
+      - name: date_date
+        description: "Kampanya verisinin ait olduğu tarih."
+        tests:
+          - not_null
+
+      - name: campaign_key
+        description: "Kampanyayı benzersiz şekilde tanımlayan anahtar."
+        tests:
+          - not_null
+
+      - name: campaign_name
+        description: "Kampanyanın adı."
+        tests:
+          - not_null
+
+      - name: paid_source
+        description: "Kampanyanın kaynağı (ör. Adwords, Bing, Criteo, Facebook)."
+        tests:
+          - accepted_values:
+              values: ['Adwords', 'Bing', 'Criteo', 'Facebook']
 
       - name: total_clicks
-        description: "Kampanyadan gelen toplam tıklama sayısı."
-        tests:
-          - not_null
-
+        description: "Toplam tıklama sayısı."
       - name: total_impressions
-        description: "Kampanyanın toplam gösterim sayısı."
-        tests:
-          - not_null
-
+        description: "Toplam gösterim sayısı."
       - name: total_spend
-        description: "Kampanya için yapılan toplam harcama."
-        tests:
-          - not_null
-
+        description: "Toplam reklam harcaması."
       - name: ctr
         description: "Click-through rate: Tıklama oranı."
-
       - name: cpc
         description: "Cost per click: Tıklama başına maliyet."
-
       - name: cpm
-        description: "Cost per mille: 1000 gösterim başına maliyet."    
+        description: "Cost per mille: 1000 gösterim başına maliyet."
+
+  - name: finance_campaigns_day
+    description: "Finance_days ve int_campaigns_day modellerinin birleşimi. Finans ekibinin günlük kampanya kârlılığını izleyebilmesi için gelir, maliyet ve reklam metriklerini tek tabloda birleştirir."
+    columns:
+      - name: date
+        description: "Kayıt tarihi (günlük bazda)."
+        tests:
+          - not_null
+
+      - name: ads_margin
+        description: "Operasyonel marjdan reklam maliyeti çıkarılarak hesaplanan kârlılık."
+        tests:
+          - not_null
+
+      - name: average_basket
+        description: "Ortalama sepet tutarı."
+        tests:
+          - not_null
+
+      - name: operational_margin
+        description: "Günlük operasyonel marj."
+        tests:
+          - not_null
+
+      - name: ads_cost
+        description: "Kampanyalara yapılan toplam günlük harcama."
+
+      - name: ads_impression
+        description: "Toplam günlük gösterim sayısı."
+
+      - name: ads_clicks
+        description: "Toplam günlük tıklama sayısı."
+
+      - name: quantity
+        description: "Toplam satılan ürün adedi."
+        tests:
+          - not_null
+
+      - name: revenue
+        description: "Toplam gelir."
+        tests:
+          - not_null
+
+      - name: purchase_cost
+        description: "Toplam satın alma maliyeti."
+        tests:
+          - not_null
+
+      - name: margin
+        description: "Toplam marj."
+        tests:
+          - not_null
+
+      - name: shipping_fee
+        description: "Toplam kargo ücretleri."
+
+      - name: log_cost
+        description: "Toplam lojistik maliyetleri."
