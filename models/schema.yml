@@ -58,36 +58,7 @@ models:
       - name: ship_cost
         description: "Gönderim maliyeti."
 
-  - name: int_campaigns
-    description: "Farklı kampanya kaynaklarını birleştiren ara model."
-    columns:
-      - name: campaign_key
-        description: "Her kampanyayı benzersiz olarak tanımlayan anahtar."
-        tests:
-          - unique
-          - not_null
-
-      - name: campaign_name
-        description: "Kampanyanın adı."
-        tests:
-          - not_null
-
-      - name: paid_source
-        description: "Kampanyanın geldiği kaynak (örneğin Adwords, Bing, Criteo, Facebook)."
-        tests:
-          - accepted_values:
-              values: ['Adwords', 'Bing', 'Criteo', 'Facebook']
-
-      - name: ads_cost
-        description: "Kampanya harcaması (float64 formatında)."
-        tests:
-          - not_null
-
-      - name: impression
-        description: "Kampanyanın gösterim sayısı."
-      - name: click
-        description: "Kampanyadan gelen tıklama sayısı."
-
+ 
   - name: int_campaigns_day
     description: "Her gün için kampanya performansının özetini içeren model."
     columns:
