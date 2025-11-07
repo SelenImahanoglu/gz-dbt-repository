@@ -87,3 +87,51 @@ models:
 
       - name: impressions
         description: "Kampanyanın gösterim sayısı"
+  - name: int_campaigns_day
+    description: "Her gün için kampanya performansının özetini içeren model."
+    columns:
+      - name: date_date
+        description: "Kampanya verisinin ait olduğu tarih."
+        tests:
+          - not_null
+
+      - name: campaign_id
+        description: "Kampanyayı benzersiz şekilde tanımlayan ID."
+        tests:
+          - unique
+          - not_null
+
+      - name: campaign_name
+        description: "Kampanyanın adı."
+        tests:
+          - not_null
+
+      - name: channel
+        description: "Kampanyanın yürütüldüğü kanal (örneğin Email, Social, Paid Search)."
+        tests:
+          - accepted_values:
+              values: ['Email', 'Social', 'Paid Search', 'Organic']
+
+      - name: total_clicks
+        description: "Kampanyadan gelen toplam tıklama sayısı."
+        tests:
+          - not_null
+
+      - name: total_impressions
+        description: "Kampanyanın toplam gösterim sayısı."
+        tests:
+          - not_null
+
+      - name: total_spend
+        description: "Kampanya için yapılan toplam harcama."
+        tests:
+          - not_null
+
+      - name: ctr
+        description: "Click-through rate: Tıklama oranı."
+
+      - name: cpc
+        description: "Cost per click: Tıklama başına maliyet."
+
+      - name: cpm
+        description: "Cost per mille: 1000 gösterim başına maliyet."    
