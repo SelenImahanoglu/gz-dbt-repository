@@ -1,6 +1,6 @@
 SELECT
     date_date,
-    campaign_id,
+    campaign_key,        
     campaign_name,
     channel,
     SUM(clicks) AS total_clicks,
@@ -12,6 +12,6 @@ SELECT
 FROM {{ ref('int_campaigns') }}
 GROUP BY
     date_date,
-    campaign_id,
+    campaign_key,         
     campaign_name,
     channel
