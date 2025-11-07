@@ -1,3 +1,4 @@
+{{ config(materialized = 'table') }}
 WITH op AS (
   SELECT
     date_date,
