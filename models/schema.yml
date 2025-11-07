@@ -16,7 +16,6 @@ sources:
       - name: raw_gz_product
       - name: raw_gz_ship
 
-
 models:
   - name: stg_gz_raw_data__raw_gz_product
     columns:
@@ -49,3 +48,42 @@ models:
       - name: shipping_fee
       - name: logistic_cost
       - name: ship_cost
+
+  - name: int_campaigns
+    description: "Farklı kampanya kaynaklarını birleştiren ara model"
+    columns:
+      - name: campaign_id
+        description: "Her kampanyayı benzersiz olarak tanımlayan ID"
+        tests:
+          - unique
+          - not_null
+
+      - name: campaign_name
+        description: "Kampanyanın adı"
+        tests:
+          - not_null
+
+      - name: channel
+        description: "Kampanyanın yürütüldüğü kanal (ör. Email, Social, Paid Search)"
+        tests:
+          - accepted_values:
+              values: ['Email', 'Social', 'Paid Search', 'Organic']
+
+      - name: start_date
+        description: "Kampanyanın başlangıç tarihi"
+        tests:
+          - not_null
+
+      - name: end_date
+        description: "Kampanyanın bitiş tarihi"
+
+      - name: total_spend
+        description: "Kampanyaya harcanan toplam bütçe"
+        tests:
+          - not_null
+
+      - name: clicks
+        description: "Kampanyadan gelen toplam tıklama sayısı"
+
+      - name: impressions
+        description: "Kampanyanın gösterim sayısı"
