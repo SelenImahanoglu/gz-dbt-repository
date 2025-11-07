@@ -1,17 +1,17 @@
 SELECT
     date_date,
-    campaign_key,        
+    campaign_key,
     campaign_name,
-    channel,
-    SUM(clicks) AS total_clicks,
-    SUM(impressions) AS total_impressions,
-    SUM(total_spend) AS total_spend,
-    SAFE_DIVIDE(SUM(clicks), SUM(impressions)) AS ctr,
-    SAFE_DIVIDE(SUM(total_spend), SUM(clicks)) AS cpc,
-    SAFE_DIVIDE(SUM(total_spend), SUM(impressions)) AS cpm
+    paid_source,
+    SUM(click) AS total_clicks,
+    SUM(impression) AS total_impressions,
+    SUM(ads_cost) AS total_spend,
+    SAFE_DIVIDE(SUM(click), SUM(impression)) AS ctr,          
+    SAFE_DIVIDE(SUM(ads_cost), SUM(click)) AS cpc,            
+    SAFE_DIVIDE(SUM(ads_cost), SUM(impression)) AS cpm      
 FROM {{ ref('int_campaigns') }}
 GROUP BY
     date_date,
-    campaign_key,         
+    campaign_key,
     campaign_name,
-    channel
+    paid_source
