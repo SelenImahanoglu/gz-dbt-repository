@@ -6,3 +6,22 @@ sources:
     tables:
       - name: raw_cc_parcel
       - name: raw_cc_parcel_product
+
+models:
+  - name: stg_cc_parcel
+    description: "Circle parcel staging table"
+    columns:
+      - name: parcel_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_cc_parcel_products
+    description: "Circle parcel products staging table"
+    columns:
+      - name: parcel_id
+        tests:
+          - not_null
+      - name: model_name
+        tests:
+          - not_null
