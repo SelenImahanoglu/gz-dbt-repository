@@ -25,3 +25,23 @@ models:
       - name: model_name
         tests:
           - not_null
+
+  - name: cc_parcel
+    description: "Circle parcel final KPI table"
+    columns:
+      - name: parcel_id
+        tests:
+          - not_null
+          - unique
+
+      - name: status
+        tests:
+          - not_null
+
+      - name: qty
+        tests:
+          - not_null
+
+      - name: nb_products
+        tests:
+          - not_null
