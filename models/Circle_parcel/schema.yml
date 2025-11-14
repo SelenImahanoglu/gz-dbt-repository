@@ -45,3 +45,18 @@ models:
       - name: nb_products
         tests:
           - not_null
+
+  - name: cc_parcel_products
+    description: "Circle parcel products final table"
+    columns:
+      - name: parcel_id
+        tests:
+          - not_null
+
+      - name: model_name
+        tests:
+          - not_null
+
+      - name: quantity
+        tests:
+          - not_null
