@@ -48,3 +48,7 @@ models:
     mart:
       +dataset: dbt_prod_finance
       +materialized: table
+       
+    circle_parcel:
+      +dataset: parcel_dbt_dev
+      +materialized: table
