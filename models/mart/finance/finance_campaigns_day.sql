@@ -1,3 +1,4 @@
+{{ config(enabled = false) }}
 SELECT
     f.date AS date,
     (f.total_operational_margin - IFNULL(c.total_spend, 0)) AS ads_margin,

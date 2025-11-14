@@ -1,3 +1,4 @@
+{{ config(enabled = false) }}
 WITH
   src AS (
     SELECT * FROM {{ source('gz_raw_data', 'raw_gz_ship') }}

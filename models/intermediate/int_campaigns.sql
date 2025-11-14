@@ -1,3 +1,4 @@
+{{ config(enabled = false) }}
 WITH campaigns AS (
     SELECT * FROM {{ ref('stg_gz_raw_data__raw_gz_adwords') }}
     UNION ALL

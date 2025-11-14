@@ -1,3 +1,4 @@
+{{ config(enabled = false) }}
 SELECT
     date_date,
     campaign_key,

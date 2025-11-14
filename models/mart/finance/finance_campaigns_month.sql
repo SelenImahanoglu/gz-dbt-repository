@@ -1,3 +1,4 @@
+{{ config(enabled = false) }}
 SELECT
     FORMAT_DATE('%Y-%m', date) AS datemonth,
     SUM(ads_margin) AS ads_margin,
