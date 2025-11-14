@@ -1,3 +1,4 @@
+{{ config(enabled = false) }}
 WITH op AS (
   SELECT
     date_date,

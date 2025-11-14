@@ -1,3 +1,4 @@
+{{ config(enabled = false) }}
 WITH joined AS (
   SELECT
     s.date_date AS date,

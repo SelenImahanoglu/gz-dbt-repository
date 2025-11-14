@@ -1,3 +1,4 @@
+{{ config(enabled = false) }}
 WITH sales_margin AS (
     SELECT
         orders_id,
